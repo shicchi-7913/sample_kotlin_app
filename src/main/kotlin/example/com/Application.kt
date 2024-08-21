@@ -1,5 +1,6 @@
 package example.com
 
+import example.com.model.Users
 import example.com.plugins.*
 import io.ktor.server.application.*
 
@@ -9,8 +10,6 @@ fun main(args: Array<String>) {
 
 fun Application.module() {
     configureSerialization()
-    configureDatabases()
-    configureHTTP()
     configureSecurity()
     configureRouting()
 }
