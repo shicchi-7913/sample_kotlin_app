@@ -4,3 +4,8 @@ ktor:
             - example.com.ApplicationKt.module
     deployment:
         port: 8080
+    database:
+        name: "sample_kotlin_app"
+        url: ""
+        user: "root"
+        password: "password"

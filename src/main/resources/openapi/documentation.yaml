@@ -19,5 +19,12 @@ paths:
               examples:
                 Example#1:
                   value: "Hello World!"
+  /user:
+    post:
+      description: "create user"
+      responses:
+        "200":
+          description: "OK"
+
 components:
   schemas: {}
