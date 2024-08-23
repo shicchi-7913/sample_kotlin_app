@@ -19,12 +19,37 @@ paths:
               examples:
                 Example#1:
                   value: "Hello World!"
-  /user:
+  /users:
     post:
-      description: "create user"
+      summary: Create a new user
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
       responses:
-        "200":
-          description: "OK"
+        '201':
+          description: User created successfully
+        '400':
+          description: Invalid input data
+      tags:
+        - Users
 
 components:
-  schemas: {}
+  schemas:
+    UserRequest:
+      type: object
+      required:
+        - name
+        - email
+      properties:
+        name:
+          type: string
+          description: Name of the user
+          maxLength: 255
+        email:
+          type: string
+          description: Email of the user
+          maxLength: 255

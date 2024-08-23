@@ -1,15 +1,14 @@
 package example.com
 
-import example.com.model.Users
-import example.com.plugins.*
-import io.ktor.server.application.*
+import example.com.plugins.configureRouting
+import example.com.utilities.configureDatabase
+import io.ktor.server.application.Application
 
 fun main(args: Array<String>) {
     io.ktor.server.netty.EngineMain.main(args)
 }
 
 fun Application.module() {
-    configureSerialization()
-    configureSecurity()
+    configureDatabase()
     configureRouting()
 }
