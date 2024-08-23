@@ -689,6 +689,22 @@
   <script>
     // Script section to load models into a JS Var
     var defs = {}
+            defs["UserRequest"] = {
+  "required" : [ "email", "name" ],
+  "type" : "object",
+  "properties" : {
+    "name" : {
+      "maxLength" : 255,
+      "type" : "string",
+      "description" : "Name of the user"
+    },
+    "email" : {
+      "maxLength" : 255,
+      "type" : "string",
+      "description" : "Email of the user"
+    }
+  }
+};
   </script>
 
   <div class="container-fluid">
@@ -709,8 +725,9 @@
                     <li data-group="Default" data-name="rootGet" class="">
                       <a href="#api-Default-rootGet">rootGet</a>
                     </li>
-                    <li data-group="Default" data-name="userPost" class="">
-                      <a href="#api-Default-userPost">userPost</a>
+                  <li class="nav-header" data-group="Users"><a href="#api-Users">API Methods - Users</a></li>
+                    <li data-group="Users" data-name="createUser" class="">
+                      <a href="#api-Users-createUser">createUser</a>
                     </li>
           </ul>
         </nav>
@@ -994,91 +1011,99 @@ except ApiException as e:
                         </article>
                       </div>
                       <hr>
-                    <div id="api-Default-userPost">
-                      <article id="api-Default-userPost-0" data-group="User" data-name="userPost" data-version="0">
+                  </section>
+                <section id="api-Users">
+                  <h1>Users</h1>
+                    <div id="api-Users-createUser">
+                      <article id="api-Users-createUser-0" data-group="User" data-name="createUser" data-version="0">
                         <div class="pull-left">
-                          <h1>userPost</h1>
-                          <p></p>
+                          <h1>createUser</h1>
+                          <p>Create a new user</p>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">create user</p>
+                        <p class="marked"></p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/user</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/users</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
                         <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Default-userPost-0-curl">Curl</a></li>
-                          <li class=""><a href="#examples-Default-userPost-0-java">Java</a></li>
-                          <li class=""><a href="#examples-Default-userPost-0-android">Android</a></li>
-                          <!--<li class=""><a href="#examples-Default-userPost-0-groovy">Groovy</a></li>-->
-                          <li class=""><a href="#examples-Default-userPost-0-objc">Obj-C</a></li>
-                          <li class=""><a href="#examples-Default-userPost-0-javascript">JavaScript</a></li>
-                          <!--<li class=""><a href="#examples-Default-userPost-0-angular">Angular</a></li>-->
-                          <li class=""><a href="#examples-Default-userPost-0-csharp">C#</a></li>
-                          <li class=""><a href="#examples-Default-userPost-0-php">PHP</a></li>
-                          <li class=""><a href="#examples-Default-userPost-0-perl">Perl</a></li>
-                          <li class=""><a href="#examples-Default-userPost-0-python">Python</a></li>
+                          <li class="active"><a href="#examples-Users-createUser-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Users-createUser-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Users-createUser-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Users-createUser-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Users-createUser-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Users-createUser-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Users-createUser-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Users-createUser-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Users-createUser-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Users-createUser-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Users-createUser-0-python">Python</a></li>
                         </ul>
 
                         <div class="tab-content">
-                          <div class="tab-pane active" id="examples-Default-userPost-0-curl">
+                          <div class="tab-pane active" id="examples-Users-createUser-0-curl">
                            <pre class="prettyprint"><code class="language-bsh">curl -X POST\
-"http://0.0.0.0:8080/user"</code></pre>
+-H "Content-Type: application/json"\
+"http://0.0.0.0:8080/users"</code></pre>
                           </div>
-                          <div class="tab-pane" id="examples-Default-userPost-0-java">
+                          <div class="tab-pane" id="examples-Users-createUser-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
 import io.swagger.client.auth.*;
 import io.swagger.client.model.*;
-import io.swagger.client.api.DefaultApi;
+import io.swagger.client.api.UsersApi;
 
 import java.io.File;
 import java.util.*;
 
-public class DefaultApiExample {
+public class UsersApiExample {
 
     public static void main(String[] args) {
         
-        DefaultApi apiInstance = new DefaultApi();
+        UsersApi apiInstance = new UsersApi();
+        UserRequest body = ; // UserRequest | 
         try {
-            apiInstance.userPost();
+            apiInstance.createUser(body);
         } catch (ApiException e) {
-            System.err.println("Exception when calling DefaultApi#userPost");
+            System.err.println("Exception when calling UsersApi#createUser");
             e.printStackTrace();
         }
     }
 }</code></pre>
                           </div>
 
-                          <div class="tab-pane" id="examples-Default-userPost-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.DefaultApi;
+                          <div class="tab-pane" id="examples-Users-createUser-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UsersApi;
 
-public class DefaultApiExample {
+public class UsersApiExample {
 
     public static void main(String[] args) {
-        DefaultApi apiInstance = new DefaultApi();
+        UsersApi apiInstance = new UsersApi();
+        UserRequest body = ; // UserRequest | 
         try {
-            apiInstance.userPost();
+            apiInstance.createUser(body);
         } catch (ApiException e) {
-            System.err.println("Exception when calling DefaultApi#userPost");
+            System.err.println("Exception when calling UsersApi#createUser");
             e.printStackTrace();
         }
     }
 }</code></pre>
                           </div>
   <!--
-  <div class="tab-pane" id="examples-Default-userPost-0-groovy">
+  <div class="tab-pane" id="examples-Users-createUser-0-groovy">
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
-                            <div class="tab-pane" id="examples-Default-userPost-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
-DefaultApi *apiInstance = [[DefaultApi alloc] init];
+                            <div class="tab-pane" id="examples-Users-createUser-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">UserRequest *body = ; // 
 
-[apiInstance userPostWithCompletionHandler: 
-              ^(NSError* error) {
+UsersApi *apiInstance = [[UsersApi alloc] init];
+
+// Create a new user
+[apiInstance createUserWith:body
+              completionHandler: ^(NSError* error) {
                             if (error) {
                                 NSLog(@"Error: %@", error);
                             }
@@ -1086,10 +1111,12 @@ DefaultApi *apiInstance = [[DefaultApi alloc] init];
 </code></pre>
                             </div>
 
-                            <div class="tab-pane" id="examples-Default-userPost-0-javascript">
+                            <div class="tab-pane" id="examples-Users-createUser-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var ApplicationApi = require('application_api');
 
-var api = new ApplicationApi.DefaultApi()
+var api = new ApplicationApi.UsersApi()
+var body = ; // {{UserRequest}} 
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -1097,14 +1124,14 @@ var callback = function(error, data, response) {
     console.log('API called successfully.');
   }
 };
-api.userPost(callback);
+api.createUser(body, callback);
 </code></pre>
                             </div>
 
-                            <!--<div class="tab-pane" id="examples-Default-userPost-0-angular">
+                            <!--<div class="tab-pane" id="examples-Users-createUser-0-angular">
               <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
             </div>-->
-                            <div class="tab-pane" id="examples-Default-userPost-0-csharp">
+                            <div class="tab-pane" id="examples-Users-createUser-0-csharp">
                               <pre class="prettyprint"><code class="language-cs">using System;
 using System.Diagnostics;
 using IO.Swagger.Api;
@@ -1113,20 +1140,22 @@ using IO.Swagger.Model;
 
 namespace Example
 {
-    public class userPostExample
+    public class createUserExample
     {
         public void main()
         {
 
-            var apiInstance = new DefaultApi();
+            var apiInstance = new UsersApi();
+            var body = new UserRequest(); // UserRequest | 
 
             try
             {
-                apiInstance.userPost();
+                // Create a new user
+                apiInstance.createUser(body);
             }
             catch (Exception e)
             {
-                Debug.Print("Exception when calling DefaultApi.userPost: " + e.Message );
+                Debug.Print("Exception when calling UsersApi.createUser: " + e.Message );
             }
         }
     }
@@ -1134,36 +1163,38 @@ namespace Example
 </code></pre>
                             </div>
 
-                            <div class="tab-pane" id="examples-Default-userPost-0-php">
+                            <div class="tab-pane" id="examples-Users-createUser-0-php">
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-$api_instance = new Swagger\Client\ApiDefaultApi();
+$api_instance = new Swagger\Client\ApiUsersApi();
+$body = ; // UserRequest | 
 
 try {
-    $api_instance->userPost();
+    $api_instance->createUser($body);
 } catch (Exception $e) {
-    echo 'Exception when calling DefaultApi->userPost: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling UsersApi->createUser: ', $e->getMessage(), PHP_EOL;
 }
 ?></code></pre>
                             </div>
 
-                            <div class="tab-pane" id="examples-Default-userPost-0-perl">
+                            <div class="tab-pane" id="examples-Users-createUser-0-perl">
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
 use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::DefaultApi;
+use WWW::SwaggerClient::UsersApi;
 
-my $api_instance = WWW::SwaggerClient::DefaultApi->new();
+my $api_instance = WWW::SwaggerClient::UsersApi->new();
+my $body = WWW::SwaggerClient::Object::UserRequest->new(); # UserRequest | 
 
 eval { 
-    $api_instance->userPost();
+    $api_instance->createUser(body => $body);
 };
 if ($@) {
-    warn "Exception when calling DefaultApi->userPost: $@\n";
+    warn "Exception when calling UsersApi->createUser: $@\n";
 }</code></pre>
                             </div>
 
-                            <div class="tab-pane" id="examples-Default-userPost-0-python">
+                            <div class="tab-pane" id="examples-Users-createUser-0-python">
                               <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
 import time
 import swagger_client
@@ -1171,12 +1202,14 @@ from swagger_client.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = swagger_client.DefaultApi()
+api_instance = swagger_client.UsersApi()
+body =  # UserRequest | 
 
 try: 
-    api_instance.user_post()
+    # Create a new user
+    api_instance.create_user(body)
 except ApiException as e:
-    print("Exception when calling DefaultApi->userPost: %s\n" % e)</code></pre>
+    print("Exception when calling UsersApi->createUser: %s\n" % e)</code></pre>
                             </div>
                           </div>
 
@@ -1184,11 +1217,62 @@ except ApiException as e:
 
 
 
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">body <span style="color:red;">*</span></td>
+                                <td>
+                                
+                                
+                                <script>
+                                $(document).ready(function() {
+                                  var schemaWrapper = {
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/UserRequest"
+      }
+    }
+  },
+  "required" : true
+};
+                                  var schema = schemaWrapper.content["application/json"].schema;
+                                  if (schema.$ref != null) {
+                                    schema = defsParser.$refs.get(schema.$ref);
+                                  } else {
+                                    schemaWrapper.components = {};
+                                    schemaWrapper.components.schemas = Object.assign({}, defs);
+                                    $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                      console.log(err);
+                                    });
+                                  }
+                                
+                                  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+                                  var result = $('#d2e199_createUser_body');
+                                  result.empty();
+                                  result.append(view.render());
+                                });
+                                </script>
+                                <div id="d2e199_createUser_body"></div>
+                                </td>
+                                </tr>
+                            </table>
 
 
 
                           <h2>Responses</h2>
-                            <h3> Status: 200 - OK </h3>
+                            <h3> Status: 201 - User created successfully </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 400 - Invalid input data </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
