@@ -2,6 +2,8 @@ package example.com.validations
 
 import example.com.requests.UserRequest
 import junit.framework.TestCase.assertEquals
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.CsvSource
 import kotlin.test.Test
 
 class UserValidationTest {
@@ -55,23 +57,30 @@ class UserValidationTest {
         assertEquals(listOf("email cannot be longer than 255 characters."), errors)
     }
 
-    @Test
-    fun `should return error if email format is invalid`() {
-        val invalidEmails = listOf(
-            "plainaddress",
-            "@missingusername.com",
-            "username@.com",
-            "username@domain",
-        )
+    @ParameterizedTest
+    @CsvSource(
+        value = [
+            "plainaddress          | true",
+            "@missingusername.com  | true",
+            "username@.com         | true",
+            "username@domain       | true",
+            "username@domain..com  | true",
+            "username@domain.com   | false"
+        ],
+        delimiter = '|',
+    )
+    fun `checks email is correct format or not`(
+        email: String,
+        expected: Boolean
+    ) {
+        val userRequest = UserRequest(name = "Valid Name", email = email)
+        val userValidation = UserValidation(userRequest)
 
-        for (email in invalidEmails) {
-            val userRequest = UserRequest(name = "Valid Name", email = email)
-            val userValidation = UserValidation(userRequest)
+        val hasError = userValidation.hasError()
+        val errors = userValidation.errorMessages
 
-            val hasError = userValidation.hasError()
-            val errors = userValidation.errorMessages
-
-            kotlin.test.assertEquals(message = "email is $email", expected = true, actual = hasError)
+        kotlin.test.assertEquals(message = "email is $email", expected = expected, actual = hasError)
+        if(hasError) {
             assertEquals(listOf("Invalid email format"), errors)
         }
     }

@@ -3,7 +3,7 @@ package example.com.validations
 import example.com.requests.UserRequest
 
 class UserValidation(private val userRequest: UserRequest) {
-    private val emailRegex = Regex("^[\\w+\\-.]+@[a-z\\d\\-.]+\\.[a-z]+\$", RegexOption.IGNORE_CASE)
+    private val emailRegex = Regex("^[\\w+\\-.]+@[a-z\\d-]+(\\.[a-z\\d-]+)*\\.[a-z]+\$", RegexOption.IGNORE_CASE)
     val errorMessages: MutableList<String> = mutableListOf()
 
     fun hasError(): Boolean {
