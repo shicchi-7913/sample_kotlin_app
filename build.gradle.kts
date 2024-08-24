@@ -57,7 +57,15 @@ dependencies {
     implementation("com.mysql:mysql-connector-j:9.0.0")
     runtimeOnly("org.flywaydb:flyway-core:$flyway_version")
     testImplementation("io.ktor:ktor-server-test-host-jvm")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.11.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.11.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+}
+
+tasks {
+    test {
+        useJUnitPlatform()
+    }
 }
 
 flyway {
