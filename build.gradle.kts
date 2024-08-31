@@ -57,6 +57,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("io.ktor:ktor-server-config-yaml")
     implementation("com.mysql:mysql-connector-j:9.0.0")
+    implementation("at.favre.lib:bcrypt:0.10.2")
     runtimeOnly("org.flywaydb:flyway-core:$flyway_version")
     testImplementation("io.ktor:ktor-server-test-host-jvm")
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.0")

@@ -1,5 +1,6 @@
 package example.com.interfaces.controller
 
+import at.favre.lib.crypto.bcrypt.BCrypt
 import example.com.model.Users
 import example.com.response.UserResponse
 import example.com.requests.UserRequest
@@ -28,11 +29,13 @@ class UserController {
             return
         }
 
+        val hashedPassword = BCrypt.withDefaults().hashToString(12, userRequest.password!!.toCharArray())
+
         transaction {
             Users.insert {
                 it[name] = userRequest.name!!
                 it[email] = userRequest.email?.lowercase()!!
-                it[password] = userRequest.password!!
+                it[password] = hashedPassword
             }
         }
         call.respond(HttpStatusCode.Created)
