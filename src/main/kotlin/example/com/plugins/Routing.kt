@@ -1,16 +1,20 @@
 package example.com.plugins
 
+import example.com.interfaces.controller.LoginController
 import example.com.interfaces.controller.UserResources
 import example.com.interfaces.controller.UserController
+import example.com.interfaces.form.LoginRequest
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
 import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.server.plugins.statuspages.StatusPages
-import io.ktor.server.response.respondText
 import io.ktor.server.plugins.openapi.openAPI
+import io.ktor.server.request.*
 import io.ktor.server.resources.Resources
 import io.ktor.server.resources.post
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Application.configureRouting() {
@@ -22,13 +26,21 @@ fun Application.configureRouting() {
     install(ContentNegotiation) {
         json()
     }
-
     install(Resources)
     routing {
         openAPI(path="openapi", swaggerFile = "openapi/documentation.yaml")
-        val userController = UserController()
+        post("/login") {
+            val loginRequest = call.receive<LoginRequest>()
+            LoginController().post(loginRequest, call)
+        }
         post<UserResources> {
-            userController.post(call)
+            UserController().post(call)
+        }
+        authenticate("auth-session") {
+            get("/hello") {
+                val userSession = call.principal<UserSession>()
+                call.respondText("Hello, session id is ${userSession?.id}.")
+            }
         }
     }
 }

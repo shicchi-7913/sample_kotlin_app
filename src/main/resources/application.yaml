@@ -9,3 +9,5 @@ ktor:
         url: "jdbc:mysql://localhost:3306/sample_kotlin_app"
         user: "root"
         password: "password"
+    cookie:
+        secure: false
