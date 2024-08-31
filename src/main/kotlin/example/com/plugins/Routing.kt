@@ -13,6 +13,7 @@ import io.ktor.server.plugins.statuspages.StatusPages
 import io.ktor.server.plugins.openapi.openAPI
 import io.ktor.server.request.*
 import io.ktor.server.resources.Resources
+import io.ktor.server.resources.get
 import io.ktor.server.resources.post
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -35,6 +36,9 @@ fun Application.configureRouting() {
         }
         post<UserResources> {
             UserController().post(call)
+        }
+        get<UserResources.Show> { user ->
+            UserController().get(call, user.id)
         }
         authenticate("auth-session") {
             get("/hello") {
