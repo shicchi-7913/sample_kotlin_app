@@ -27,7 +27,8 @@ class UserController {
         transaction {
             Users.insert {
                 it[name] = userRequest.name!!
-                it[email] = userRequest.email!!
+                it[email] = userRequest.email?.lowercase()!!
+                it[password] = userRequest.password!!
             }
         }
         call.respond(HttpStatusCode.Created)
