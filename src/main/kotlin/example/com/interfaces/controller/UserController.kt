@@ -4,6 +4,7 @@ import at.favre.lib.crypto.bcrypt.BCrypt
 import example.com.model.Users
 import example.com.response.UserResponse
 import example.com.requests.UserRequest
+import example.com.response.UsersResponse
 import example.com.validations.UserValidation
 import io.ktor.http.*
 import io.ktor.resources.Resource
@@ -46,15 +47,31 @@ class UserController {
     }
 
     suspend fun index(call: ApplicationCall) {
+        val queryParameters = call.request.queryParameters
+        val currentPage = queryParameters["page"]?.toLong() ?: 1
+        val perPage = queryParameters["per"]?.toInt() ?: 20
+
         val users = transaction {
-            Users
+            val totalUserCount = Users.selectAll().count()
+            val totalPages = (totalUserCount + perPage - 1) / perPage
+            val users = Users
                 .selectAll()
+                .limit(perPage, offset = ((currentPage - 1) * perPage))
                 .map { row ->
                     UserResponse(
                         name = row[Users.name],
                         email = row[Users.email]
                     )
                 }
+            UsersResponse(
+                users = users,
+                currentPage = currentPage,
+                perPage = perPage,
+                totalPages = totalPages,
+                totalCount = totalUserCount,
+                hasNextPage = currentPage < totalPages,
+                hasPreviousPage = currentPage > 1,
+            )
         }
         call.respond(HttpStatusCode.OK, users)
     }
