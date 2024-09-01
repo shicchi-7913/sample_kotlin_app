@@ -16,6 +16,7 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.Resources
 import io.ktor.server.resources.get as resourcesGet
 import io.ktor.server.resources.post as resourcesPost
+import io.ktor.server.resources.patch as resourcesPatch
 import io.ktor.server.response.*
 import io.ktor.server.routing.routing
 import io.ktor.server.routing.delete
@@ -45,6 +46,14 @@ fun Application.configureRouting() {
                 val userSession = call.principal<UserSession>()
                 if(userSession?.id == user.id) {
                     UserController().get(call, user.id)
+                } else {
+                    call.respond(HttpStatusCode.Unauthorized)
+                }
+            }
+            resourcesPatch<UserResources.Patch> { user ->
+                val userSession = call.principal<UserSession>()
+                if(userSession?.id == user.id) {
+                    UserController().patch(call, user.id)
                 } else {
                     call.respond(HttpStatusCode.Unauthorized)
                 }

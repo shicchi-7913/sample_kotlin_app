@@ -12,11 +12,14 @@ import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.update
 
 @Resource("/users")
 class UserResources() {
     @Resource("{id}")
     class Show(val parent: UserResources = UserResources(), val id: Int)
+    @Resource("{id}")
+    class Patch(val parent: UserResources = UserResources(), val id: Int)
 }
 
 class UserController {
@@ -59,5 +62,26 @@ class UserController {
         } else {
             call.respond(HttpStatusCode.OK, user)
         }
+    }
+
+    suspend fun patch(call: ApplicationCall, id: Int) {
+        val userRequest = call.receive<UserRequest>()
+        val userValidation = UserValidation(userRequest)
+        if(userValidation.hasError()) {
+            call.respond(HttpStatusCode.BadRequest, userValidation.errorMessages.joinToString(separator = ", "))
+            return
+        }
+
+        val hashedPassword = BCrypt.withDefaults().hashToString(12, userRequest.password!!.toCharArray())
+
+        transaction {
+            Users.update({ Users.id eq(id) }) {
+                it[name] = userRequest.name!!
+                it[email] = userRequest.email!!
+                it[password] = hashedPassword
+            }
+        }
+
+        call.respond(HttpStatusCode.OK)
     }
 }
