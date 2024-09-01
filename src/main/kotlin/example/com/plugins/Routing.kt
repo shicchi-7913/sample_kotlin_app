@@ -37,13 +37,14 @@ fun Application.configureRouting() {
         post<UserResources> {
             UserController().post(call)
         }
-        get<UserResources.Show> { user ->
-            UserController().get(call, user.id)
-        }
         authenticate("auth-session") {
-            get("/hello") {
+            get<UserResources.Show> { user ->
                 val userSession = call.principal<UserSession>()
-                call.respondText("Hello, session id is ${userSession?.id}.")
+                if(userSession?.id == user.id) {
+                    UserController().get(call, user.id)
+                } else {
+                    call.respond(HttpStatusCode.Unauthorized)
+                }
             }
         }
     }
