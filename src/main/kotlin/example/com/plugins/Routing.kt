@@ -42,6 +42,9 @@ fun Application.configureRouting() {
             UserController().post(call)
         }
         authenticate("auth-session") {
+            resourcesGet<UserResources> { _ ->
+                UserController().index(call)
+            }
             resourcesGet<UserResources.Show> { user ->
                 val userSession = call.principal<UserSession>()
                 if(userSession?.id == user.id) {
@@ -50,10 +53,10 @@ fun Application.configureRouting() {
                     call.respond(HttpStatusCode.Unauthorized)
                 }
             }
-            resourcesPatch<UserResources.Patch> { user ->
+            resourcesPatch<UserResources.Update> { user ->
                 val userSession = call.principal<UserSession>()
                 if(userSession?.id == user.id) {
-                    UserController().patch(call, user.id)
+                    UserController().update(call, user.id)
                 } else {
                     call.respond(HttpStatusCode.Unauthorized)
                 }

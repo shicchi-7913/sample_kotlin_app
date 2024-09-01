@@ -11,6 +11,7 @@ import io.ktor.server.application.ApplicationCall
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 
@@ -19,7 +20,7 @@ class UserResources() {
     @Resource("{id}")
     class Show(val parent: UserResources = UserResources(), val id: Int)
     @Resource("{id}")
-    class Patch(val parent: UserResources = UserResources(), val id: Int)
+    class Update(val parent: UserResources = UserResources(), val id: Int)
 }
 
 class UserController {
@@ -44,6 +45,20 @@ class UserController {
         call.respond(HttpStatusCode.Created)
     }
 
+    suspend fun index(call: ApplicationCall) {
+        val users = transaction {
+            Users
+                .selectAll()
+                .map { row ->
+                    UserResponse(
+                        name = row[Users.name],
+                        email = row[Users.email]
+                    )
+                }
+        }
+        call.respond(HttpStatusCode.OK, users)
+    }
+
     suspend fun get(call: ApplicationCall, id: Int) {
         val user = transaction {
             Users
@@ -64,7 +79,7 @@ class UserController {
         }
     }
 
-    suspend fun patch(call: ApplicationCall, id: Int) {
+    suspend fun update(call: ApplicationCall, id: Int) {
         val userRequest = call.receive<UserRequest>()
         val userValidation = UserValidation(userRequest)
         if(userValidation.hasError()) {
