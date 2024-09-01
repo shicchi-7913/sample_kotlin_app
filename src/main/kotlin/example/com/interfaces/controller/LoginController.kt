@@ -37,7 +37,7 @@ class LoginController {
 
         if (result.verified) {
             call.sessions.set(UserSession(id = currentUser.id))
-            call.respondText("OK")
+            call.respond(HttpStatusCode.OK)
         } else {
             call.respond(HttpStatusCode.Unauthorized, "email or password is invalid")
         }
